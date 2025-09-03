@@ -1,48 +1,75 @@
-# Kompendium Ewidencji Czasu Pracy i Urlopów w Polsce
+---
+title: "Polish Labor Law Reference"
+description: "Comprehensive reference for Polish labor law requirements, work time systems, and leave regulations"
+version: "1.0"
+date: "2025-09-02"
+type: "Legal Reference"
+audience: "Development Team, Legal Counsel, HR Professionals"
+---
 
-## Podstawy prawne i wymogi dla różnych form zatrudnienia
+# Polish Labor Law Reference
+
+## Overview
+
+This document provides a comprehensive technical reference for implementing Polish labor law requirements in the Time2Work system. All requirements are based exclusively on official government sources (gov.pl, pip.gov.pl, dziennikustaw.gov.pl) and current legal acts.
+
+## Table of Contents
+
+- [Legal Foundations and Employment Types](#legal-foundations-and-employment-types)
+- [Work Time Organization Systems](#work-time-organization-systems)
+- [Remote Work Regulations](#remote-work-regulations)
+- [Leave Types and Calculations](#leave-types-and-calculations)
+- [Overtime and Night Work](#overtime-and-night-work)
+- [Rest Periods](#rest-periods)
+- [Sanctions and Penalties](#sanctions-and-penalties)
+- [PIP Inspections](#pip-inspections)
+- [Implementation Requirements](#implementation-requirements)
+
+## Legal Foundations and Employment Types
 
 ### Obowiązki ewidencyjne według typu umowy
 
-**Umowa o pracę** (art. 149 KP + Rozporządzenie z 10 grudnia 2018 r.)
-- **Podstawa prawna**: Art. 149 § 1 Kodeksu pracy + § 6 pkt 1a Rozporządzenia MRPiPS
-- **Obowiązek**: BEZWZGLĘDNY dla wszystkich pracowników
-- **Wymagane dane**:
-  ```
-  - Godziny pracy ORAZ dokładny czas rozpoczęcia/zakończenia
-  - Godziny dyżuru ORAZ dokładny czas dyżuru z lokalizacją
-  - Dni wolne od pracy ze wskazaniem powodu
-  - Rodzaj i wymiar urlopu
-  - Rodzaj i wymiar usprawiedliwionych/nieusprawiedliwionych nieobecności
-  - Praca nieletnich przy zadaniach zabronionych (gdy dotyczy)
-  ```
-- **Okres przechowywania**: 10 lat od końca roku kalendarzowego zakończenia zatrudnienia (zatrudnieni po 1 stycznia 2019)
+### Umowa o pracę (art. 149 KP + Regulation of December 10, 2018)
 
-**Umowa zlecenie**
-- **Podstawa prawna**: Ustawa o minimalnym wynagrodzeniu
-- **Obowiązek**: Tylko gdy weryfikacja minimalnego wynagrodzenia
-- **Wymagane dane**: Godziny pracy dla kalkulacji minimalnej stawki
-- **Algorytm**: `IF umowa_zlecenie AND minimalne_wynagrodzenie = TRUE THEN ewidencja_godzin`
+- **Legal basis**: Art. 149 § 1 Labor Code + § 6 pt 1a MRPiPS Regulation
+- **Obligation**: ABSOLUTE for all employees
+- **Required data**:
+  - Work hours AND exact start/end times
+  - On-call hours AND exact on-call time with location
+  - Days off from work with reason indicated
+  - Type and scope of leave
+  - Type and scope of justified/unjustified absences
+  - Minor work on prohibited tasks (when applicable)
+- **Retention period**: 10 years from the end of the calendar year of employment termination (employed after January 1, 2019)
 
-**Umowa o dzieło / B2B**
-- **Podstawa prawna**: Kodeks cywilny
-- **Obowiązek**: BRAK obowiązku ewidencji czasu pracy
-- **Wyjątek**: Ryzyko przekwalifikowania na umowę o pracę przy cechach stosunku pracy
+### Umowa zlecenie (Service Agreement)
 
-### Uproszczona ewidencja (Art. 149 § 2 KP)
-Dotyczy:
-- Pracowników w zadaniowym czasie pracy
-- Kadry zarządzającej
-- Pracowników z ryczałtem za nadgodziny/pracę nocną
+- **Legal basis**: Minimum Wage Act
+- **Obligation**: Only when minimum wage verification required
+- **Required data**: Work hours for minimum rate calculation
+- **Algorithm**: `IF umowa_zlecenie AND minimalne_wynagrodzenie = TRUE THEN ewidencja_godzin`
 
-Wymaga tylko:
-- Rodzaj i wymiar urlopu
-- Rodzaj i wymiar nieobecności
-- Dni wolne z powodami
+### Umowa o dzieło / B2B (Contract for Specific Work)
 
-## Systemy organizacji czasu pracy
+- **Legal basis**: Civil Code
+- **Obligation**: NO time tracking obligation
+- **Exception**: Risk of reclassification to employment contract when employment relationship characteristics present
 
-### 1. System podstawowy (art. 128-129 KP)
+### Simplified Record Keeping (Art. 149 § 2 KP)
+
+**Applies to**:
+- Employees on task-based work time
+- Management staff
+- Employees with overtime/night work lump sum
+
+**Requires only**:
+- Type and scope of leave
+- Type and scope of absences
+- Days off with reasons
+
+## Work Time Organization Systems
+
+### 1. Basic System (art. 128-129 KP)
 ```python
 def podstawowy_czas_pracy():
     dzienny_limit = 8  # godzin
@@ -111,10 +138,10 @@ def weekendowy_system():
     okres_rozliczeniowy = 1  # miesiąc
 ```
 
-**Przykłady praktycznego zastosowania:**
+#### Practical Implementation Examples
 
 ```python
-# PRZYKŁAD 1: Kasjer w supermarkecie
+# EXAMPLE 1: Supermarket Cashier
 class KasjerWeekendowy:
     """Praca tylko w weekendy - popularny model dla studentów"""
     
@@ -217,7 +244,7 @@ class PromotorEventowy:
         }
 ```
 
-**Specjalne regulacje dla pracy weekendowej:**
+#### Special Weekend Work Regulations
 ```python
 class RegulacjeWeekendowe:
     def zasady_handlu_niedziela(self):
@@ -248,7 +275,7 @@ class RegulacjeWeekendowe:
         }
 ```
 
-### 8. Skrócony tydzień pracy (art. 143 KP)
+### 8. Shortened Work Week (art. 143 KP)
 ```python
 def skrócony_tydzień():
     przykład_4_dni = 40 / 4  # = 10 godzin dziennie
@@ -256,10 +283,10 @@ def skrócony_tydzień():
     okres_rozliczeniowy = 1  # miesiąc
 ```
 
-**Przykłady praktycznego zastosowania:**
+#### Practical Implementation Examples
 
 ```python
-# PRZYKŁAD 1: Programista w trybie 4-dniowym
+# EXAMPLE 1: Programmer in 4-day mode
 class Programista4Days:
     """Popularne w branży IT - work-life balance"""
     
@@ -362,7 +389,7 @@ class KonsultantFlex4:
         return miesiąc
 ```
 
-**Podsumowanie wdrożenia skróconego tygodnia:**
+#### Implementation Summary for Shortened Week
 ```python
 class WdrozenieSkroconego:
     def kroki(self):
@@ -385,12 +412,13 @@ class WdrozenieSkroconego:
         }
 ```
 
-**Kiedy stosować skrócony tydzień:**
-- Branża IT (programiści, testerzy, DevOps)
-- Kreatywne (agencje, marketing, design)
-- Konsulting (elastyczność projektów)
-- Produkcja (system zmianowy skompresowany)
-- Administracja (pilotaże work-life balance)
+#### When to Apply Shortened Week
+
+- **IT Industry**: Programmers, testers, DevOps
+- **Creative**: Agencies, marketing, design
+- **Consulting**: Project flexibility
+- **Production**: Compressed shift systems
+- **Administration**: Work-life balance pilots
 
 ## Praca zdalna (nowelizacja z kwietnia 2023)
 
