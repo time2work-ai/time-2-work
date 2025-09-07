@@ -6,6 +6,9 @@ date: "2025-09-02"
 type: "Technical Reference"
 audience: "Development Team"
 priority: "HIGH"
+document_number: "03"
+input: "02_user_scenarios.md"
+output: "Technical specifications for implementation"
 ---
 
 # Work Time Systems Implementation
@@ -66,7 +69,7 @@ def równoważny_system_implementation():
         },
         
         'monitoring_equipment': {
-            'daily_maximum': 16,  # hours - YOU MISSED 4 EXTRA HOURS
+            'daily_maximum': 16,  # hours
             'weekly_average': 40,
             'settlement_period': 3,  # months
             'justification_required': True,
@@ -74,7 +77,7 @@ def równoważny_system_implementation():
         },
         
         'security_guards': {
-            'daily_maximum': 24,  # hours - YOU MISSED 12 EXTRA HOURS  
+            'daily_maximum': 24,  # hours
             'weekly_average': 40,
             'settlement_period': 1,  # month
             'continuous_presence': True,
@@ -133,16 +136,16 @@ def weekend_work_system():
     Weekend work validation including retail restrictions
     """
     
-    def get_retail_sunday_calendar_2024():
-        """Only 7 Sundays allowed for retail trade in 2024"""
+    def get_retail_sunday_calendar_2025():
+        """Only 7 Sundays allowed for retail trade in 2025"""
         return [
-            date(2024, 1, 28),  # Last Sunday of January
-            date(2024, 3, 24),  # Sunday before Easter
-            date(2024, 4, 28),  # Last Sunday of April  
-            date(2024, 6, 30),  # Last Sunday of June
-            date(2024, 8, 25),  # Last Sunday of August
-            date(2024, 12, 22), # Sunday before Christmas Eve
-            date(2024, 11, 24)  # Last Sunday of November
+            date(2025, 1, 26),   # Last Sunday of January
+            date(2025, 4, 13),   # Sunday before Easter
+            date(2025, 4, 27),   # Last Sunday of April  
+            date(2025, 6, 29),   # Last Sunday of June
+            date(2025, 8, 31),   # Last Sunday of August
+            date(2025, 12, 14),  # First Sunday before Christmas
+            date(2025, 12, 21)   # Second Sunday before Christmas
         ]
     
     def validate_weekend_work(work_date, employee, business_type):
@@ -155,13 +158,13 @@ def weekend_work_system():
             
             # Retail-specific restrictions
             if business_type == 'retail':
-                approved_sundays = get_retail_sunday_calendar_2024()
+                approved_sundays = get_retail_sunday_calendar_2025()
                 if work_date not in approved_sundays:
                     violations.append({
                         'type': 'illegal_sunday_retail_work',
                         'severity': 'CRITICAL',
                         'fine_range': (5000, 50000),  # PLN
-                        'message': f'Retail work prohibited on {work_date}. Only 7 Sundays allowed in 2024.'
+                        'message': f'Retail work prohibited on {work_date}. Only 7 Sundays allowed in 2025.'
                     })
             
             # General Sunday work rules
@@ -200,7 +203,7 @@ def weekend_work_system():
         return supplements
     
     return {
-        'retail_calendar': get_retail_sunday_calendar_2024(),
+        'retail_calendar': get_retail_sunday_calendar_2025(),
         'validation_engine': validate_weekend_work,
         'supplement_calculator': calculate_weekend_supplements,
         'compliance_monitoring': 'Real-time Sunday work limit tracking'
@@ -637,11 +640,11 @@ Feature: Accurate Work Time System Implementation
     And validate weekly average does not exceed "40 hours"
 
   Scenario: Retail Sunday Work Validation
-    Given I am scheduling retail work on "Sunday January 14, 2024"
+    Given I am scheduling retail work on "Sunday January 14, 2025"
     When I attempt to create the schedule
     Then the system must block the action
-    And display error: "Retail work prohibited - not an approved Sunday in 2024"
-    And show next available approved Sunday: "January 28, 2024"
+    And display error: "Retail work prohibited - not an approved Sunday in 2025"
+    And show next available approved Sunday: "January 26, 2025"
 
   Scenario: Task-Based System Configuration
     Given I am configuring a senior developer position

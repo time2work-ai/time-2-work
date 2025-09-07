@@ -30,7 +30,7 @@ The entire lifecycle of an employee's time and attendance is handled in a simple
 
 The process begins when an administrator onboards a new employee. Time2Work instantly analyzes their work history and education to automatically assign the correct annual leave entitlement—20 or 26 days. This eliminates manual calculation and ensures the foundational element of their employment is legally compliant from day one.
 
-*(Based on Scenario: Standard Employee Onboarding)*
+*(Based on Scenario: Standard Employee Onboarding)*/
 
 ### 2. Daily Work is Captured Intelligently
 

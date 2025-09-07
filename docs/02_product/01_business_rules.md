@@ -6,6 +6,9 @@ date: "2025-09-06"
 type: "Technical Reference"
 audience: "AI Agents, Development Team"
 priority: "CRITICAL"
+document_number: "01"
+input: "../01_business/polish-labor-law-reference.md"
+output: "Business rules extracted and structured for implementation"
 ---
 
 # Polish Labor Law Technical Reference
